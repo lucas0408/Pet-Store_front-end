@@ -1,0 +1,214 @@
+<nav class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-indigo-700 to-purple-700 shadow-lg">
+  <div class="container mx-auto max-w-7xl flex justify-between items-center p-4">
+    <div class="flex items-center space-x-4">
+      <button 
+        routerLink="/users"
+        class="text-white hover:bg-indigo-600 px-4 py-2 rounded-lg transition-all duration-300 flex items-center"
+      >
+        <fa-icon [icon]="icons.users" class="mr-2"></fa-icon>
+        Usuários
+      </button>
+      <h1 class="text-2xl font-bold text-white mr-8">Produtos em Estoque</h1>
+    </div>
+    
+    <button 
+      (click)="logout()"
+      class="text-white bg-red-500 hover:bg-red-600 px-6 py-2 rounded-full transition-all duration-300 flex items-center"
+    >
+      <fa-icon [icon]="icons.logout" class="mr-2"></fa-icon>
+      Sair
+    </button>
+  </div>
+</nav>
+
+<body class="bg-gradient-to-r from-blue-50 via-blue-100 to-blue-200 min-h-screen p-8 font-sans text-gray-800">
+  <div class="container mx-auto max-w-7xl pt-8">
+
+<div class="bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-3 mb-4">
+  <div class="flex justify-between items-center mb-2">
+    <h2 class="text-lg font-bold text-indigo-700 flex items-center">
+      <button (click)="openCategoryModel()" >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+        </svg>
+      </button>
+      Categorias
+    </h2>
+  </div>
+  
+  <!-- Category Grid - Minimized -->
+  <div class="grid grid-cols-5 gap-2 overflow-y-auto max-h-64">
+    @for (category of categories; track category.id) {
+      @if (category.id) {
+        <div class="flex flex-col items-center">
+          <button 
+            class="mt-2 w-14 h-14 rounded-full overflow-hidden shadow-sm 
+                   transition-all duration-300 transform hover:scale-105 
+                   focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            [class.ring-4]="isSelected(category.id)"
+            [class.ring-yellow-400]="isSelected(category.id)"
+            (click)="selectCategory(category.id)"
+          >
+            <img 
+              [src]="category.imageUrl ? api_url + category.imageUrl : 'assets/images/default-category.svg'"
+              [alt]="category.name"
+              class="w-full h-full object-cover"
+            >
+          </button>
+          <span class="mt-1 text-[10px] font-medium text-gray-700 text-center truncate w-full">
+            {{category.name}}
+          </span>
+        </div>
+      }
+    }
+  </div>  
+</div>
+
+    <!-- Products Table -->
+
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <div class="bg-gradient-to-r from-indigo-600 to-purple-600 py-6 flex justify-center items-center space-x-4">
+        <button 
+          type="button" 
+          (click)="openProductModel()"
+          class="px-8 py-4 bg-white text-indigo-700 font-bold rounded-full 
+                 hover:bg-gray-100 transition-all duration-300 
+                 transform hover:scale-105 shadow-xl 
+                 focus:outline-none focus:ring-4 focus:ring-indigo-300"
+        >
+          Adicionar Produto
+        </button>
+        <input 
+          type="text"
+          (input)="filterProductByName($event)"
+          placeholder="Buscar produto"
+          class="px-4 py-2 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-300"
+        >
+      </div>
+
+      <!-- Product Table -->
+      <table class="w-full text-sm">
+        <thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+          <tr>
+            <th class="px-6 py-4 text-center font-semibold">Nome</th>
+            <th class="px-6 py-4 text-center font-semibold">Imagem</th>
+            <th class="px-6 py-4 text-center font-semibold">Preço</th>
+            <th class="px-6 py-4 text-center font-semibold">Estoque</th>
+            <th class="px-6 py-4 text-center font-semibold">Adicionar</th>
+            <th class="px-6 py-4 text-center font-semibold">Vendas</th>
+            <th class="px-6 py-4 text-center font-semibold">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (product of filterProducts; track $index) {
+            <tr class="border-b hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-center font-medium text-gray-800">
+                {{product.name}}
+              </td>
+
+              <td class="px-6 py-4 text-center">
+                <img 
+                  [src]="product.imageUrl ? api_url + product.imageUrl : 'assets/images/default-product.svg'" 
+                  [alt]=""
+                  class="w-16 h-16 object-cover rounded-lg mx-auto shadow-md"
+                >
+              </td>
+
+              <td class="px-6 py-4 text-center text-red-600 font-bold">
+                {{product.unitPrice}} R$
+              </td>
+
+              <td class="px-6 py-4 text-center text-green-700 font-bold">
+                {{product.unitsInStock}} Un
+              </td>
+
+              <td class="px-6 py-4 text-center">
+                <div class="flex items-center justify-center space-x-3">
+                  <input 
+                    type="number"
+                    #addStockInput
+                    class="w-20 px-2 py-2 text-center border-2 border-green-300 
+                           rounded-lg bg-green-50 focus:ring-2 focus:ring-green-500 
+                           focus:border-transparent"
+                    min="1"
+                    [value]="1"
+                  >
+                  <button 
+                    type="button" 
+                    class="text-green-600 hover:text-green-700 
+                           transition-colors duration-300 
+                           hover:scale-110"
+                    (click)="addStockUnit(+addStockInput.value, product, addStockInput)"
+                  >
+                    <fa-icon [icon]="icons.upLong" size="lg"></fa-icon> 
+                  </button>
+                </div>
+              </td>
+
+              <td class="px-6 py-4 text-center">
+                <div class="flex items-center justify-center space-x-3">
+                  <input 
+                    type="number"
+                    #removeStockInput
+                    class="w-20 px-2 py-2 text-center border-2 border-red-300 
+                           rounded-lg bg-red-50 focus:ring-2 focus:ring-red-500 
+                           focus:border-transparent"
+                    min="1"
+                    [max]="product.unitsInStock"
+                    [value]="1"
+                  >
+                  <button 
+                    type="button" 
+                    class="text-red-600 hover:text-red-700 
+                           transition-colors duration-300 
+                           hover:scale-110"
+                    (click)="removeStockUnit(+removeStockInput.value, product, removeStockInput)"
+                  >
+                    <fa-icon [icon]="icons.basket" size="lg"></fa-icon>
+                  </button>
+                </div>
+              </td>
+
+              <td class="px-6 py-4 text-center space-x-4">
+                <button 
+                  type="button" 
+                  (click)="loadProduct(product)" 
+                  class="text-blue-600 hover:text-blue-700 
+                         transition-colors duration-300 
+                         hover:scale-105 flex items-center justify-center"
+                >
+                  <fa-icon [icon]="icons.pen" class="mr-2"></fa-icon>
+                  Atualizar
+                </button>
+                <button 
+                  type="button" 
+                  class="text-red-600 hover:text-red-700 
+                         transition-colors duration-300 
+                         hover:scale-105 flex items-center justify-center"
+                  (click)="onDelete(product.id!)"
+                >
+                  <fa-icon [icon]="icons.trash" class="mr-2"></fa-icon> 
+                  Excluir
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modals (Keep existing modal components) -->
+    <app-model [isOpen]="isProductModelOpen">
+      <app-product-form 
+        (onCloseModel)="closeProductModel()" 
+        [data]="product"
+      ></app-product-form>
+    </app-model>
+
+    <app-model [isOpen]="isCategoryModelOpen">
+      <app-category-form 
+        (onCloseModel)="closeCategoryModel()"
+      ></app-category-form>
+    </app-model>
+  </div>
+</body>

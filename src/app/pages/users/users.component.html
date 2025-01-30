@@ -1,0 +1,165 @@
+<nav class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-700 to-blue-900 shadow-lg">
+    <div class="container mx-auto max-w-2xl flex justify-between items-center p-4">
+      <div class="flex items-center space-x-4">
+        <button 
+          routerLink="/users"
+          class="text-white hover:bg-blue-600 px-4 py-2 rounded-lg transition-all duration-300 flex items-center"
+        >
+          <fa-icon [icon]="icons.users" class="mr-2"></fa-icon>
+          Usuários
+        </button>
+        <h1 class="text-xl font-bold text-white">Cadastro de Usuários</h1>
+      </div>
+      <button 
+        (click)="logout()"
+        class="text-white bg-red-500 hover:bg-red-600 px-6 py-2 rounded-full transition-all duration-300 flex items-center"
+      >
+        <fa-icon [icon]="icons.logout" class="mr-2"></fa-icon>
+        Sair
+      </button>
+    </div>
+  </nav>
+  
+  <body class="bg-gradient-to-r from-blue-50 via-blue-100 to-blue-200 min-h-screen font-sans text-gray-800 flex justify-center items-start pt-24">
+    <pre> {{string | json}} </pre>
+    
+    <div class="max-w-2xl w-full px-4">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" autocomplete="off" class="w-full" novalidate>
+        <div class="bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-6 mb-6">
+          @if(user != null){
+            <h2 class="text-lg font-bold text-blue-700 mb-4">Atualizar Usuário</h2>
+          }@else{
+            <h2 class="text-lg font-bold text-blue-700 mb-4">Registrar Usuário</h2>
+          }
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Nome</label>
+              <input 
+                type="text" 
+                placeholder="Insira seu nome" 
+                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                formControlName="name"
+              />
+              @if(userForm.get('name')?.hasError('required') && userForm.get('name')?.touched){
+                <div class="text-red-500 text-sm mt-1">O nome é obrigatório</div>
+              }
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Email</label>
+              <input 
+                type="email" 
+                placeholder="email@exemplo.com" 
+                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                formControlName="login"
+              />
+              @if(userForm.get('email')?.hasError('required') && userForm.get('email')?.touched){
+                <div class="text-red-500 text-sm mt-1">O email é obrigatório</div>
+              }
+              @if(userForm.get('email')?.hasError('email') && userForm.get('email')?.touched){
+                <div class="text-red-500 text-sm mt-1">Email inválido</div>
+              }
+            </div>
+            @if(user == null){
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Senha</label>
+                <input 
+                  type="password" 
+                  placeholder="senha" 
+                  class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  formControlName="password"
+                />
+                @if(userForm.get('password')?.hasError('required') && userForm.get('password')?.touched){
+                  <div class="text-red-500 text-sm mt-1">A senha é obrigatória</div>
+                }
+              </div>
+            }
+
+            @if(user != null){
+              <div class="mb-4">
+                <label class="flex items-center space-x-2">
+                  <input 
+                    type="checkbox" 
+                    [checked]="registerNewPassword"
+                    (change)="toggleNewPassword()"
+                    class="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
+                  >
+                  <span class="text-sm font-medium text-gray-700">Cadastrar nova senha</span>
+                </label>
+              </div>
+              @if(registerNewPassword){
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Nova Senha</label>
+                  <input 
+                    type="password" 
+                    placeholder="Digite a nova senha" 
+                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    formControlName="password"
+                  />
+                </div>
+              }
+            }
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Role</label>
+              <select 
+                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                formControlName="role"
+              >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <button 
+              type="submit" 
+              class="w-full bg-blue-700 text-white py-2 rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
+            >
+              Registrar Novo Usuário
+            </button>
+            @if(user != null){
+              <button 
+                (click)="resetForm()"
+                class="w-full bg-blue-700 text-white py-2 rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
+              >
+                Cancelar
+              </button>
+            }
+          </div>
+        </div>
+      </form>
+  
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 py-3 px-6">
+          <h3 class="text-white font-bold text-base">Usuários Cadastrados</h3>
+        </div>
+        <ul class="divide-y divide-gray-200">
+          @for (eachUser of users; track $index){
+            @if(user?.login != eachUser.login){
+            <li class="p-4 flex justify-between items-center hover:bg-gray-50">
+              <div class="flex-grow">
+                <p class="font-medium text-gray-800">{{eachUser.name}}</p>
+                <p class="text-sm text-gray-600">{{eachUser.login}}</p>
+              </div>
+              <div class="flex gap-3">
+                <button 
+                  (click)="editUser(eachUser)" 
+                  class="text-blue-500 hover:text-blue-700 transition-colors"
+                  title="Editar usuário"
+                >
+                  <fa-icon [icon]="icons.pen"></fa-icon>
+                </button>
+                <button 
+                  (click)="deleteUser(eachUser.id!)" 
+                  class="text-red-500 hover:text-red-700 transition-colors"
+                  title="Excluir usuário"
+                >
+                  <fa-icon [icon]="icons.trash"></fa-icon>
+                </button>
+              </div>
+            </li>
+           }
+          }
+        </ul>
+      </div>
+
+    </div>
+  </body>

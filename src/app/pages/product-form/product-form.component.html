@@ -1,0 +1,115 @@
+<h5 class="mb-6 text-2xl font-extrabold tracking-tight text-center text-gray-900 dark:text-white">
+  <i class="fas fa-box-open mr-2"></i> Detalhes do Produto
+</h5>
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" autocomplete="off" class="w-full" novalidate>
+  <div class="mb-5">
+    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+      <i class="fas fa-tag mr-1"></i> Nome do produto
+    </label>
+    <div class="relative">
+      <input type="text" id="name" class="form-control w-full pl-10" placeholder="Digite o nome do produto" formControlName="name">
+      <i class="fas fa-tag absolute left-3 top-3 text-gray-400"></i>
+      @if(productForm.get('name')?.hasError('required') && productForm.get('name')?.touched){
+        <div class="form-error">O nome é obrigatório</div>
+      }
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+    <div>
+      <label for="unitPrice" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Preço por unidade
+      </label>
+      <input
+        type="text"
+        id="unitPrice"
+        class="form-control w-full"
+        placeholder="0,00"
+        formControlName="unitPrice"
+        (input)="onInput($event)" 
+      />
+      @if(productForm.get('unitPrice')?.hasError('required') && productForm.get('unitPrice')?.touched){
+        <div class="form-error">O preço unitario é obrigatório</div>
+      }
+      @if(productForm.get('unitPrice')?.hasError('min') && productForm.get('unitPrice')?.touched){
+        <div class="form-error">O preço precisa ser maior que zero</div>
+      }
+    </div>
+
+    <div>
+      <label for="unitsInStock" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantidade em estoque</label>
+      <input type="number" id="unitsInStock" min="0" class="form-control w-full" placeholder="0" formControlName="unitsInStock">
+      @if(productForm.get('unitsInStock')?.hasError('required') && productForm.get('unitsInStock')?.touched){
+        <div class="form-error">Quantidade em estoque é obrigatório</div>
+      }
+      @if(productForm.get('unitsInStock')?.hasError('min') && productForm.get('unitsInStock')?.touched){
+        <div class="form-error">Quantidade em estoque precisa ser maior que um</div>
+      }
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+      <i class="fas fa-image mr-1"></i> Imagem do Produto
+    </label>
+    <div class="flex flex-col items-center space-y-4">
+      <div class="w-32 h-32 relative">
+        <img 
+          [src]="imagePreview ? imagePreview : 'assets/images/default-product.svg'" 
+          [alt]="'Pré-visualização da imagem'" 
+          class="w-full h-full object-cover rounded border border-gray-300 shadow"
+        >
+        <button 
+          type="button" 
+          *ngIf="imagePreview"
+          (click)="clearImage()"
+          class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
+          <i class="fas fa-times"></i>
+            <fa-icon [icon]="icons.close"></fa-icon> 
+        </button>
+      </div>
+      <label for="image" class="text-blue-600 hover:text-blue-700 font-medium cursor-pointer flex items-center gap-2">
+        <i class="fas fa-upload"></i> Escolher Imagem
+      </label>
+      <input 
+        type="file" 
+        id="image" 
+        accept="image/*"
+        class="hidden"
+        (change)="onFileSelected($event)">
+    </div>
+  </div>  
+
+  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categorias</label>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto max-h-48 border p-4 rounded">
+    @for(category of categories; track category.id){
+      @if(category.id){
+        <div class="flex items-center">
+          <input
+            type="checkbox"
+            [id]="'select-category-' + category.id"
+            [value]="category"
+            [checked]="isCategorySelected(category)"
+            (change)="onCategoryChange($event, category)"
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+          >
+          <label [for]="'select-category-' + category.id" class="ms-2 text-sm font-medium text-gray-900 dark:text-white">
+            {{category.name}}
+          </label>
+        </div>
+      }
+    }
+  </div>
+  
+  <div class="flex justify-end gap-4 mt-6">
+    <button type="submit"
+      class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg px-5 py-2.5 flex items-center gap-2">
+      <i class="fas fa-paper-plane"></i> Enviar
+    </button>
+    <button type="button" 
+      class="text-white bg-gray-600 hover:bg-gray-700 font-medium rounded-lg px-5 py-2.5 flex items-center gap-2"
+      (click)="onClose()">
+      <i class="fas fa-times"></i> Cancelar
+    </button>
+  </div>
+</form>

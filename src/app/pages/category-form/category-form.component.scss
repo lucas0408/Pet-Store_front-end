@@ -1,0 +1,19 @@
+.rounded-full {
+    border-radius: 50%;
+  }
+  
+  img {
+    transition: transform 0.3s;
+  }
+  
+  img:hover {
+    transform: scale(1.05);
+  }
+  
+  .border-gray-300 {
+    border-color: #d1d5db; /* Cor da borda padrão */
+  }
+  
+  .border-yellow-400 {
+    border-color: #facc15; /* Cor da borda amarela para seleção */
+  }

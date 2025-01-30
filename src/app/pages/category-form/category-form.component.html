@@ -1,0 +1,106 @@
+<h5 class="relative mb-6 text-2xl font-extrabold tracking-tight text-center text-gray-900 dark:text-white">
+  <i class="fas fa-box-open mr-2"></i> Detalhes da Categoria
+  <button
+    type="button"
+    (click)="onClose()"
+    class="absolute top-1 right-1 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-sm"
+  >
+    <fa-icon [icon]="icons.close"></fa-icon>
+  </button>
+</h5>
+
+<form
+  [formGroup]="categoryForm"
+  (ngSubmit)="onSubmit()"
+  autocomplete="off"
+  class="w-full space-y-6"
+  novalidate
+>
+  <!-- Campo Nome da Categoria -->
+  <div>
+    <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+      <i class="fas fa-tag mr-1"></i> Nome da Categoria
+    </label>
+    <div class="flex items-center gap-2">
+      <div class="relative flex-grow">
+        <input
+          type="text"
+          id="name"
+          class="form-control w-full pl-10"
+          (input)="clearInput()"
+          placeholder="Digite o nome da categoria"
+          formControlName="name"
+        >
+        <i class="fas fa-tag absolute left-3 top-3 text-gray-400"></i>
+      </div>
+      <button
+        type="button"
+        (click)="findCategory()"
+        class="bg-blue-600 text-white hover:bg-blue-700 font-medium rounded-lg px-4 py-2 flex items-center gap-1"
+      >
+        <fa-icon [icon]="icons.search"></fa-icon>
+      </button>
+    </div>
+    <div
+      *ngIf="categoryForm.get('name')?.hasError('required') && categoryForm.get('name')?.touched"
+      class="form-error mt-1"
+    >
+      O nome é obrigatório
+    </div>
+  </div>
+
+  <!-- Campo Imagem da Categoria -->
+  <div class="mt-6">
+    <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+      <i class="fas fa-image mr-1"></i> Imagem da Categoria
+    </label>
+    <div class="flex flex-col items-center space-y-4">
+      <div class="w-32 h-32 relative">
+        <img
+          [src]="imagePreview ? imagePreview : 'assets/images/default-category.svg'"
+          [alt]="'Pré-visualização da imagem'"
+          class="w-full h-full object-cover rounded border border-gray-300 shadow"
+        >
+        <button
+          type="button"
+          *ngIf="imagePreview"
+          (click)="clearImage()"
+          class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm"
+        >
+          <fa-icon [icon]="icons.close"></fa-icon>
+        </button>
+      </div>
+      <label
+        for="image"
+        class="text-blue-600 hover:text-blue-700 font-medium cursor-pointer flex items-center gap-2"
+      >
+        <i class="fas fa-upload"></i> Escolher Imagem
+      </label>
+      <input
+        type="file"
+        id="image"
+        accept="image/*"
+        class="hidden"
+        (change)="onFileSelected($event)"
+      >
+    </div>
+  </div>
+
+  <!-- Botões -->
+  <div class="flex justify-center gap-4 mt-6">
+    <button
+      type="submit"
+      class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg px-5 py-2.5 flex items-center gap-2"
+    >
+      <i class="fas fa-paper-plane"></i> Salvar
+    </button>
+    <button
+      type="button"
+      *ngIf="categoryFound"
+      class="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg px-5 py-2.5 flex items-center gap-2"
+      (click)="deleteCategory()"
+    >
+      <i class="fas fa-trash"></i> Excluir
+    </button>
+  </div>
+</form>
