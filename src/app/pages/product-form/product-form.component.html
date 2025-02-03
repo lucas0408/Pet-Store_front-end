@@ -3,6 +3,7 @@
 </h5>
 <form [formGroup]="productForm" (ngSubmit)="onSubmit()" autocomplete="off" class="w-full" novalidate>
   <div class="mb-5">
+    <pre>{{imagePreview | json}}</pre>
     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
       <i class="fas fa-tag mr-1"></i> Nome do produto
     </label>

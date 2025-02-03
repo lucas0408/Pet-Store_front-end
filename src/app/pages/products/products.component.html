@@ -1,13 +1,16 @@
 <nav class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-indigo-700 to-purple-700 shadow-lg">
   <div class="container mx-auto max-w-7xl flex justify-between items-center p-4">
     <div class="flex items-center space-x-4">
-      <button 
-        routerLink="/users"
-        class="text-white hover:bg-indigo-600 px-4 py-2 rounded-lg transition-all duration-300 flex items-center"
-      >
-        <fa-icon [icon]="icons.users" class="mr-2"></fa-icon>
-        Usuários
-      </button>
+      @if(localStorage.getItem("role") == "ROLE_ADMIN"){
+        <button 
+          (click)="goUser()"
+          routerLink="/users"
+          class="text-white hover:bg-indigo-600 px-4 py-2 rounded-lg transition-all duration-300 flex items-center"
+        >
+          <fa-icon [icon]="icons.users" class="mr-2"></fa-icon>
+          Usuários
+        </button>
+      } 
       <h1 class="text-2xl font-bold text-white mr-8">Produtos em Estoque</h1>
     </div>
     
@@ -37,31 +40,36 @@
   </div>
   
   <!-- Category Grid - Minimized -->
-  <div class="grid grid-cols-5 gap-2 overflow-y-auto max-h-64">
+  <div class="grid grid-cols-5 gap-3 overflow-y-auto max-h-72">
     @for (category of categories; track category.id) {
       @if (category.id) {
-        <div class="flex flex-col items-center">
-          <button 
-            class="mt-2 w-14 h-14 rounded-full overflow-hidden shadow-sm 
-                   transition-all duration-300 transform hover:scale-105 
-                   focus:outline-none focus:ring-2 focus:ring-indigo-300"
-            [class.ring-4]="isSelected(category.id)"
-            [class.ring-yellow-400]="isSelected(category.id)"
-            (click)="selectCategory(category.id)"
-          >
-            <img 
-              [src]="category.imageUrl ? api_url + category.imageUrl : 'assets/images/default-category.svg'"
-              [alt]="category.name"
-              class="w-full h-full object-cover"
+        <div class="flex flex-col items-center justify-center w-full">
+          <div class="relative mt-2 flex justify-center">
+            <button 
+              class="w-24 h-24 rounded-full shadow-md
+                     transition-all duration-300 transform hover:scale-105 
+                     focus:outline-none focus:ring-2 focus:ring-indigo-300
+                     bg-white flex items-center justify-center"
+              [class.ring-4]="isSelected(category.id)"
+              [class.ring-yellow-400]="isSelected(category.id)"
+              (click)="selectCategory(category.id)"
             >
-          </button>
-          <span class="mt-1 text-[10px] font-medium text-gray-700 text-center truncate w-full">
+              <div class="w-20 h-20 overflow-hidden flex items-center justify-center"> 
+                <img 
+                  [src]="category.imageUrl ? api_url + category.imageUrl : 'assets/images/default-category.svg'"
+                  [alt]="category.name"
+                  class="w-full h-full object-contain"
+                >
+              </div>
+            </button>
+          </div>
+          <span class="mt-2 text-sm font-medium text-gray-700 text-center truncate w-full">
             {{category.name}}
           </span>
         </div>
       }
     }
-  </div>  
+  </div>
 </div>
 
     <!-- Products Table -->

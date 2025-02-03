@@ -57,10 +57,20 @@
 			  </div>
 			  <div class="relative flex justify-center text-sm">
 				<span class="px-2 bg-white text-gray-500">
-				  Ou continue com
+				  Ou continue como
 				</span>
 			  </div>
+			  
 			</div>
+			<button 
+			class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-green-600 
+				   text-white font-bold rounded-lg hover:opacity-90
+				   transition-all duration-300 transform hover:scale-[1.02]
+				   focus:outline-none focus:ring-2 focus:ring-blue-500"
+			(click)="recrutadorLogin()"
+		  >
+			Recrutador
+		  </button>
   
 			<div class="flex justify-center mt-6">
 				<button>
@@ -73,7 +83,21 @@
 						<img 
 							src="assets/images/github-logo.png" 
 							alt="GitHub Logo"
-							class="w-8 h-8"
+							class="w-9 h-9"
+						>
+					</a>
+				</button>
+				<button>
+					<a 
+					href="https://www.linkedin.com/in/lucas-gabriel-navas-sabino-150640250/" 
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-block p-2 rounded-lg hover:bg-gray-100 transition-colors"
+					>
+						<img 
+							src="assets/images/317750_linkedin_icon.png" 
+							alt="GitHub Logo"
+							class="w-9 h-9"
 						>
 					</a>
 				</button>

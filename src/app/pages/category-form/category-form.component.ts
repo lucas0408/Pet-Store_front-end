@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../../services/category.service';
 import { ApiResponse, Category } from '../shared/models/Models';
 
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://pet-shop-production.up.railway.app';
 
 interface CategoryFormData {
   name: string;
@@ -143,12 +143,18 @@ export class CategoryFormComponent {
       this.toastrService.success('Categoria criada com sucesso');
       this.onClose();
     } catch {
-      const formData = this.categoryForm.value;
-      const existingCategory = await this.categoryService.getCategoryByName(formData.name).toPromise();
-      
-      await this.categoryService.updateCategory(existingCategory!.data?.id!, submitData).toPromise();
-      this.toastrService.success('Categoria atualizada com sucesso');
-      this.onClose();
+      if (this.categoryFound) {
+        const formData = this.categoryForm.value;
+        const existingCategory = await this.categoryService.getCategoryByName(formData.name).toPromise();
+        
+        await this.categoryService.updateCategory(existingCategory!.data?.id!, submitData).toPromise();
+        this.toastrService.success('Categoria atualizada com sucesso');
+        this.onClose();
+
+      } else {
+
+        this.findCategory()
+      }
     }
   }
 

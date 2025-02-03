@@ -8,7 +8,7 @@ import { ApiResponse, Category } from '../pages/shared/models/Models';
 })
 export class CategoryService {
 
-  apiurl = 'http://localhost:8080/api/categories';
+  apiurl = 'https://pet-shop-production.up.railway.app/api/categories';
 
   constructor(private http: HttpClient) { }
 

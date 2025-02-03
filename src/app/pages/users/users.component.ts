@@ -13,12 +13,14 @@ import {
   faUser,
   faSignOut,
   faBox,
-  faLitecoinSign
+  faLitecoinSign,
+  faSignal
 } from '@fortawesome/free-solid-svg-icons';
 import { ApiResponse, User } from '../shared/models/Models';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { InputMaskModule } from '@ngneat/input-mask';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -27,19 +29,19 @@ import { InputMaskModule } from '@ngneat/input-mask';
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent implements OnInit{
-
-  public string: string = "";
+export class UsersComponent implements OnInit, OnChanges{
 
   public userForm: FormGroup;
   public users: User[] = [];
   public user: User | null = null;
   public registerNewPassword: boolean = false;
+  public localStorage = localStorage
 
   constructor(
       private readonly fb: FormBuilder,
       private readonly userService: UserService,
-      private readonly toastService: ToastrService
+      private readonly toastService: ToastrService,
+      private router: Router
   ){
     this.userForm = this.fb.group({
           name: ['', [Validators.required, Validators.maxLength(70)]],
@@ -47,6 +49,9 @@ export class UsersComponent implements OnInit{
           role: ['user', [Validators.required]],
           login: ['', [Validators.required, Validators.email]]
     })
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    throw new Error('Method not implemented.');
   }
 
     public readonly icons = {
@@ -59,6 +64,10 @@ export class UsersComponent implements OnInit{
       logout: faSignOut,
       box: faBox
     };
+
+    goProducts(){
+      this.router.navigateByUrl("/products")
+    }
 
     public toggleNewPassword(): void {
       this.registerNewPassword = !this.registerNewPassword;
@@ -77,7 +86,10 @@ export class UsersComponent implements OnInit{
     }
 
     logout(){
-
+      this.router.navigateByUrl("login")
+      localStorage.removeItem("token_angular")
+      localStorage.removeItem("role")
+      localStorage.removeItem("login")
     }
 
     ngOnInit(): void {
@@ -101,6 +113,9 @@ export class UsersComponent implements OnInit{
     }
 
     public editUser(user: User){
+      if(!this.localStorage.getItem('login')){
+        this.logout()
+      }
       this.user = user;
       console.log(this.user)
       this.updateFormWithData()
@@ -128,7 +143,6 @@ export class UsersComponent implements OnInit{
 
     private async updateUser(){
       try{
-        this.string = this.userForm.value
         const response = await firstValueFrom(
           this.userService.updateUser(this.user!.id!, this.userForm.value)
         );

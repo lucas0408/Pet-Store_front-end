@@ -18,11 +18,16 @@ export const roleGuard = (allowedRoles: string[]): CanActivateFn => {
       const hasRequiredRole = decodedToken.roles.some(role => 
         allowedRoles.includes(role)
       );
+      
+      localStorage.setItem("login", decodedToken.sub)
+
+      localStorage.setItem("role", decodedToken.roles[0])
 
       if (!hasRequiredRole) {
-        router.navigate(['/products'])
+        router.navigate(['/products']);
         return false;
       }
+
       return true;
     } catch {
       router.navigate(['/login']);

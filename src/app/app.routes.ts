@@ -22,9 +22,9 @@ export const routes: Routes = [
         path: 'users',
         component: UsersComponent,
         canActivate: [
-            authGuard,
-            roleGuard(['ROLE_ADMIN'])
-        ]
+           authGuard,
+           roleGuard(['ROLE_ADMIN'])
+       ]
     }
 ];
 

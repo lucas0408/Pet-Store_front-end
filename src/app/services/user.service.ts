@@ -7,7 +7,7 @@ import { ApiResponse, User} from '../pages/shared/models/Models';
   providedIn: 'root',
 })
 export class UserService {
-  apiurl = 'http://localhost:8080/api/users';
+  apiurl = 'https://pet-shop-production.up.railway.app/api/users';
   
   constructor(private http: HttpClient) {}
 

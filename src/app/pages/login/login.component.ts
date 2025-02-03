@@ -23,6 +23,12 @@ export class LoginComponent {
 
   }
 
+  recrutadorLogin(){
+    this.login.login = "recrutador@recrutador.com"
+    this.login.password = "recrut@dorPassword"
+    this.onLogin()
+  }
+
   onLogin(){
     this.authService.login(this.login).subscribe({
       next:(res:any)=>{

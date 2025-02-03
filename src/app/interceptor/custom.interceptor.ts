@@ -1,4 +1,6 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { JwtPayload } from '../pages/shared/models/Models';
+import { jwtDecode } from 'jwt-decode';
 
 export const customInterceptor: HttpInterceptorFn = (req, next) => {
   if (typeof localStorage !== 'undefined'){
@@ -10,6 +12,7 @@ export const customInterceptor: HttpInterceptorFn = (req, next) => {
         }
       });
     
+      console.log(clonedReq.headers)
       return next(clonedReq);
     }
   }

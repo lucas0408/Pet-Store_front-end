@@ -22,7 +22,7 @@ import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { Router } from '@angular/router';
 
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://pet-shop-production.up.railway.app';
 
 @Component({
   selector: 'app-product',
@@ -45,7 +45,8 @@ export class ProductsComponent implements OnInit {
   public isProductModelOpen = false;
   public isCategoryModelOpen = false;
   public categories: Category[] = [];
-  public api_url = 'http://localhost:8080';
+  public api_url = 'https://pet-shop-production.up.railway.app';
+  public localStorage = localStorage
 
   public readonly icons = {
     upLong: faUpLong,
@@ -71,10 +72,15 @@ export class ProductsComponent implements OnInit {
     this.filterProducts = this.allProducts;
   }
 
+  goUser(){
+    this.router.navigateByUrl("/users")
+  }
+
   logout(){
     this.router.navigateByUrl("login")
     localStorage.removeItem("token_angular")
-
+    localStorage.removeItem("role")
+    localStorage.removeItem("login")
   }
 
   public async getAllProducts(): Promise<void> {
@@ -126,7 +132,6 @@ export class ProductsComponent implements OnInit {
     }
     product.unitsInStock = product.unitsInStock - value;
     this.resetInputValue(inputElement);
-    this.updateQuantity(product);
   }
 
   public addStockUnit(
@@ -140,7 +145,6 @@ export class ProductsComponent implements OnInit {
     }
     product.unitsInStock = product.unitsInStock + value;
     this.resetInputValue(inputElement);
-    this.updateQuantity(product);
   }
 
   public isSelected(categoryId: string): boolean {
@@ -177,22 +181,6 @@ export class ProductsComponent implements OnInit {
   public async closeCategoryModel(): Promise<void> {
     this.isCategoryModelOpen = false;
     await this.getAllCategories();
-  }
-
-  private async updateQuantity(product: Product): Promise<void> {
-    try {
-      const submitData = new FormData();
-      product.imageUrl = "any"
-      submitData.append('productData', JSON.stringify(product));
-      
-      const response = await firstValueFrom(
-        this.productService.updateProduct(product.id!, submitData)
-      );
-      
-      this.updateProductInList(product.id!, response.data!);
-    } catch (error) {
-      this.handleError(error as ApiResponse<null>);
-    }
   }
 
   private filterProduct(): void {

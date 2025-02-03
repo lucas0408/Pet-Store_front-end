@@ -11,7 +11,7 @@ import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { ApiResponse, Category, Product } from '../shared/models/Models';
 
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://pet-shop-production.up.railway.app';
 
 interface ProductFormData {
   name: string;
@@ -45,8 +45,7 @@ export class productFormComponent implements OnChanges, OnInit {
   public imagePreview: string | null = null;
   public priceValue = '';
   public readonly icons = { close: faX };
-  private value = "";
-  private indicador = 0;
+    private indicador = 0;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -69,7 +68,7 @@ export class productFormComponent implements OnChanges, OnInit {
 
   public ngOnChanges(): void {
     if (!this.data) return;
-    
+    this.getAllCategories()
     this.updateFormWithData();
   }
 
@@ -139,7 +138,7 @@ export class productFormComponent implements OnChanges, OnInit {
      const decimalPart = value.slice(-2); 
      input.value = `R$ ${this.formatWithSeparators(integerPart)},${decimalPart}`;
 
-     this.value = input.value;
+     this.priceValue = input.value;
   
      setTimeout(() => {
        input.selectionStart = input.value.length;
@@ -158,11 +157,11 @@ export class productFormComponent implements OnChanges, OnInit {
     }
 
     try {
-      const submitData = this.prepareFormData();
-      
       if (this.data) {
+        const submitData = this.prepareUpdateFormData()
         await this.updateProduct(submitData);
       } else {
+        const submitData = this.prepareCreateFormData()
         await this.createProduct(submitData);
       }
     } catch (error) {
@@ -240,12 +239,24 @@ export class productFormComponent implements OnChanges, OnInit {
     return parseFloat(`${integerPart.replace(/\./g, '')}.${decimalPart}`);
   }
 
-  private prepareFormData(): FormData {
+  private prepareCreateFormData(): FormData{
     const formData = {
       ...this.productForm.value,
-      unitPrice: this.convertPriceToNumber(this.value),
+      unitPrice: this.convertPriceToNumber(this.priceValue)
+    };
+    return this.prepareFormData(formData)
+  }
+
+  private prepareUpdateFormData(): FormData{
+    const formData = {
+      ...this.productForm.value,
+      unitPrice: this.convertPriceToNumber(this.priceValue),
       imageUrl: this.imagePreview || ''
     };
+    return this.prepareFormData(formData)
+  }
+
+  private prepareFormData(formData: FormData): FormData {
 
     const submitData = new FormData();
     submitData.append('productData', JSON.stringify(formData));
@@ -272,6 +283,7 @@ export class productFormComponent implements OnChanges, OnInit {
   private handleError(error: ApiResponse<null>): void {
     error.errors.forEach(errorMessage => {
       this.toastrService.error(errorMessage);
+      console.log(errorMessage)
     });
   }
 }
