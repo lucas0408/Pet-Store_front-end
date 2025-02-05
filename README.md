@@ -1,27 +1,73 @@
-# crud-employee
+# Pet Store
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/lucas0408/Pet-Store/blob/main/LICENSE) 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
+# Sobre o projeto
 
-## Development server
+https://pet-shop-front-end-nu51-8ltw9grer-lucas-s-projects-373fc6b9.vercel.app
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Pet Store é uma aplicação web full stack desenvolvida para facilitar o cadastro e gerenciamento de produtos e funcionários em pet shops. A plataforma permite que os administradores cadastrem novos produtos, organizem o estoque e gerenciem os funcionários de forma eficiente.
 
-## Code scaffolding
+## Layout web
+![web 1](https://github.com/user-attachments/assets/a265b082-f884-4747-a24c-a8e9249aa57a)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![web 2](https://github.com/user-attachments/assets/4f0166ab-4f89-4296-b466-ee0a37ec5cef)
 
-## Build
+![web 3](https://github.com/user-attachments/assets/5979ea22-6ed1-4ed3-8938-62dd9d25c1d1)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Modelo conceitual
+<img src="https://github.com/user-attachments/assets/71e564cd-0543-4d72-8ca5-dc85b44969bd" width="350">
 
-## Running unit tests
+# Tecnologias utilizadas
+## Back end
+- Java
+- Spring Boot
+- JPA / Hibernate
+- Maven
+- JWT
+## Front end
+- HTML / CSS / JS / TypeScript
+- Angular
+- Node.js
+## Implantação em produção
+- Back end: railway
+- Front end web: Vercel
+- Banco de dados: Postgresql
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Como executar o projeto
 
-## Running end-to-end tests
+## Back end
+Pré-requisitos: Java 17
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+# Clonar o repositório
+git clone https://github.com/lucas0408/Pet-Store
 
-## Further help
+# Entrar na pasta do projeto back-end
+cd Pet-Store
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# Compilar e executar o projeto
+./mvnw spring-boot:run
+```
+
+## Front end web
+Pré-requisitos: Node.js 18.x / Angular CLI 17
+
+```bash
+# Clonar o repositório
+git clone https://github.com/lucas0408/Pet-Store_front-end
+
+# Entrar na pasta do projeto
+cd Pet-Shop_front-end
+
+# Instalar as dependências
+npm install
+
+# Executar o projeto
+ng serve
+```
+
+# Autor
+
+Lucas Gabriel Navas
+
+https://www.linkedin.com/in/lucas-gabriel-navas-sabino-150640250
