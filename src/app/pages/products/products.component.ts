@@ -208,7 +208,6 @@ export class ProductsComponent implements OnInit {
 
   private handleError(error: ApiResponse<null>): void {
     error.errors.forEach(errorMessage => {
-      console.log(errorMessage)
       this.toastService.error(errorMessage);
     });
   }

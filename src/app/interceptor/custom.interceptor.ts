@@ -12,7 +12,6 @@ export const customInterceptor: HttpInterceptorFn = (req, next) => {
         }
       });
     
-      console.log(clonedReq.headers)
       return next(clonedReq);
     }
   }

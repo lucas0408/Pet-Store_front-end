@@ -283,7 +283,6 @@ export class productFormComponent implements OnChanges, OnInit {
   private handleError(error: ApiResponse<null>): void {
     error.errors.forEach(errorMessage => {
       this.toastrService.error(errorMessage);
-      console.log(errorMessage)
     });
   }
 }

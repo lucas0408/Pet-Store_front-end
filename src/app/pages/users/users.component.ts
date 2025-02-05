@@ -100,7 +100,6 @@ export class UsersComponent implements OnInit, OnChanges{
       try {
         const response = await firstValueFrom(this.userService.getAllUsers());
         this.users = response.data || [];
-        console.log(this.users)
       } catch (error) {
         this.handleError(error as ApiResponse<null>);
       }
@@ -117,7 +116,6 @@ export class UsersComponent implements OnInit, OnChanges{
         this.logout()
       }
       this.user = user;
-      console.log(this.user)
       this.updateFormWithData()
     }
 
@@ -181,7 +179,6 @@ export class UsersComponent implements OnInit, OnChanges{
         this.toastService.success("Usuário deletado com sucesso");
         await this.getAllUsers();
       } catch (error) {
-        console.error('Erro ao deletar:', error);
         this.toastService.error("Erro ao deletar usuário");
       }
     } 
