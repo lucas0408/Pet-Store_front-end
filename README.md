@@ -1,5 +1,5 @@
 # Pet Store
-[![NPM](https://img.shields.io/npm/l/react)](https://github.com/lucas0408/Pet-Store_front-end/blob/main/LICENSE) 
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/lucas0408/Pet-Store/blob/main/LICENSE) 
 
 # Sobre o projeto
 
