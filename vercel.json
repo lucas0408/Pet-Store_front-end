@@ -1,6 +1,4 @@
 {
-  "outputDirectory": "dist/ng17-crud-app",
-  "framework": "angular",
   "buildCommand": "npm install --legacy-peer-deps && npm run build",
   "installCommand": "npm install --legacy-peer-deps"
 }
