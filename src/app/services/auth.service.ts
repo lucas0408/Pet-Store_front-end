@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  apiUrl = 'http://localhost:8080/api/auth/'
+  apiUrl = 'https://pet-shop-production.up.railway.app/api/auth/'
 
 
   constructor(private httpClient: HttpClient) { }
