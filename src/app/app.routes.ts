@@ -25,7 +25,11 @@ export const routes: Routes = [
     },
     {
         path: 'users',
-        component: UsersComponent
+        component: UsersComponent,
+        canActivate: [
+           authGuard,
+           roleGuard(['ROLE_ADMIN'])
+       ]
     }
 ];
 
