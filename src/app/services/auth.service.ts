@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  apiUrl = 'https://pet-store-render.onrender.com//api/auth/'
+  apiUrl = 'https://pet-store-render.onrender.com/api/auth/'
 
 
   constructor(private httpClient: HttpClient) { }
