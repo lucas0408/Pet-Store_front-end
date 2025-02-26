@@ -8,7 +8,7 @@ import { ApiResponse, Category } from '../pages/shared/models/Models';
 })
 export class CategoryService {
 
-  apiurl = 'https://pet-shop-production.up.railway.app/api/categories';
+  apiurl = 'https://pet-store-render.onrender.com/api/categories';
 
   constructor(private http: HttpClient) { }
 

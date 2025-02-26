@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../../services/category.service';
 import { ApiResponse, Category } from '../shared/models/Models';
 
-const API_URL = 'https://pet-shop-production.up.railway.app';
+const API_URL = 'https://pet-store-render.onrender.com';
 
 interface CategoryFormData {
   name: string;

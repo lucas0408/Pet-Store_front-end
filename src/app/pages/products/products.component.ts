@@ -22,7 +22,7 @@ import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { Router } from '@angular/router';
 
-const API_URL = 'https://pet-shop-production.up.railway.app';
+const API_URL = 'https://pet-store-render.onrender.com';
 
 @Component({
   selector: 'app-product',
