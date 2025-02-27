@@ -285,5 +285,6 @@ export class productFormComponent implements OnChanges, OnInit {
     error.errors.forEach(errorMessage => {
       this.toastrService.error(errorMessage);
     });
+    console.log(error)
   }
 }
