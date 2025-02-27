@@ -81,6 +81,7 @@ export class productFormComponent implements OnChanges, OnInit {
     try {
       const response = await this.categoryService.getAllCategories().toPromise();
       this.categories = response?.data || [];
+      console.log(this.categories)
     } catch (error) {
       this.handleError(error as ApiResponse<null>);
     }
