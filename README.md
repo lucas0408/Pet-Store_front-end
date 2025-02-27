@@ -23,6 +23,7 @@ Pet Store é uma aplicação web full stack desenvolvida para facilitar o cadast
 - Spring Boot
 - JPA / Hibernate
 - Maven
+- Docker
 - JWT
 ## Front end
 - HTML / CSS / JS / TypeScript
