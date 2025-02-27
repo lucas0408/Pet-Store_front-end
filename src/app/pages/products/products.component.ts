@@ -208,5 +208,6 @@ export class ProductsComponent implements OnInit {
     error.errors.forEach(errorMessage => {
       this.toastService.error(errorMessage);
     });
+    console.log(error)
   }
 }
