@@ -22,8 +22,6 @@ import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { Router } from '@angular/router';
 
-const API_URL = 'https://pet-store-render.onrender.com';
-
 @Component({
   selector: 'app-product',
   standalone: true,
@@ -45,7 +43,7 @@ export class ProductsComponent implements OnInit {
   public isProductModelOpen = false;
   public isCategoryModelOpen = false;
   public categories: Category[] = [];
-  public api_url = 'https://pet-shop-production.up.railway.app';
+  public api_url = 'https://pet-store-render.onrender.com';
   public localStorage = localStorage
 
   public readonly icons = {
