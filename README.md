@@ -3,7 +3,7 @@
 
 # Sobre o projeto
 
-https://pet-shop-front-end-nu51-8ltw9grer-lucas-s-projects-373fc6b9.vercel.app
+https://pet-shop-front-end-nu51.vercel.app/
 
 Pet Store é uma aplicação web full stack desenvolvida para facilitar o cadastro e gerenciamento de produtos e funcionários em pet shops. A plataforma permite que os administradores cadastrem novos produtos, organizem o estoque e gerenciem os funcionários de forma eficiente.
 
@@ -23,6 +23,7 @@ Pet Store é uma aplicação web full stack desenvolvida para facilitar o cadast
 - Spring Boot
 - JPA / Hibernate
 - Maven
+- Docker
 - JWT
 ## Front end
 - HTML / CSS / JS / TypeScript
