@@ -7,7 +7,7 @@ import { ApiResponse, User} from '../pages/shared/models/Models';
   providedIn: 'root',
 })
 export class UserService {
-  apiurl = 'https://pet-store-render.onrender.com/api/users';
+  apiurl = 'http://44.211.143.190:8080/api/users';
   
   constructor(private http: HttpClient) {}
 
@@ -28,6 +28,7 @@ export class UserService {
   }
 
   createUser(userData: User): Observable<ApiResponse<User>> {
+    console.log(userData)
     return this.http.post<ApiResponse<User>>(this.apiurl, userData).pipe(
       catchError(error => {
         return throwError(() => error.error as ApiResponse<null>);

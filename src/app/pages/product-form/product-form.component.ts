@@ -11,7 +11,7 @@ import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { ApiResponse, Category, Product } from '../shared/models/Models';
 
-const API_URL = 'https://pet-store-render.onrender.com';
+const API_URL = 'http://44.211.143.190:8080';
 
 interface ProductFormData {
   name: string;

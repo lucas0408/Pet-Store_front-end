@@ -43,7 +43,7 @@ export class ProductsComponent implements OnInit {
   public isProductModelOpen = false;
   public isCategoryModelOpen = false;
   public categories: Category[] = [];
-  public api_url = 'https://pet-store-render.onrender.com';
+  public api_url = 'http://44.211.143.190:8080';
   public localStorage = localStorage
 
   public readonly icons = {

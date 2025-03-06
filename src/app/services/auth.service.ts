@@ -8,7 +8,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class AuthService {
 
-  apiUrl = 'https://pet-store-render.onrender.com/api/auth/'
+  apiUrl = 'http://44.211.143.190:8080/api/auth/'
 
 
   constructor(private httpClient: HttpClient) { }

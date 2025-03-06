@@ -106,9 +106,13 @@ export class UsersComponent implements OnInit, OnChanges{
     }
 
     private handleError(error: ApiResponse<null>): void {
-      error.errors.forEach(errorMessage => {
-        this.toastService.error(errorMessage);
-      });
+      if (error && error.errors && Array.isArray(error.errors)) {
+        error.errors.forEach(err => this.toastService.error(err));
+      } else {
+        this.toastService.error('An error occurred');
+        console.error('Error details:', error);
+      }
+    
     }
 
     public editUser(user: User){

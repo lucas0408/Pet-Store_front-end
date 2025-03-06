@@ -7,7 +7,7 @@ import { ApiResponse, Product } from '../pages/shared/models/Models';
   providedIn: 'root',
 })
 export class ProductService {
-  apiurl = 'https://pet-store-render.onrender.com/api/products';
+  apiurl = 'http://44.211.143.190:8080/api/products';
   
   constructor(private http: HttpClient) {}
 
