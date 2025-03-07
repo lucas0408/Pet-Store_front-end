@@ -8,7 +8,7 @@ import { ApiResponse, Category } from '../pages/shared/models/Models';
 })
 export class CategoryService {
 
-  apiurl = 'https://44.211.143.190:8080/api/categories';
+  apiurl = '/api/categories';
 
   constructor(private http: HttpClient) { }
 

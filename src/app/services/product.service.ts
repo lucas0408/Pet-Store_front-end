@@ -7,7 +7,7 @@ import { ApiResponse, Product } from '../pages/shared/models/Models';
   providedIn: 'root',
 })
 export class ProductService {
-  apiurl = 'https://44.211.143.190:8080/api/products';
+  apiurl = '/api/products';
   
   constructor(private http: HttpClient) {}
 

@@ -1,4 +1,10 @@
 {
   "buildCommand": "npm install --legacy-peer-deps && npm run build",
-  "installCommand": "npm install --legacy-peer-deps"
+  "installCommand": "npm install --legacy-peer-deps",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://44.211.143.190:8080/api/:path*"
+    }
+  ]
 }

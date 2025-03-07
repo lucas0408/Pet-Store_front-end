@@ -11,7 +11,7 @@ import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { ApiResponse, Category, Product } from '../shared/models/Models';
 
-const API_URL = 'https://44.211.143.190:8080';
+const API_URL = '/api';
 
 interface ProductFormData {
   name: string;
