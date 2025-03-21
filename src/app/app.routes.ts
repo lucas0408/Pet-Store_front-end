@@ -13,11 +13,7 @@ export const routes: Routes = [
     },
     {
          path: 'products', 
-         component: ProductsComponent,
-         canActivate: [
-            authGuard,
-            roleGuard(['ROLE_ADMIN', 'ROLE_USER'])
-        ]
+         component: ProductsComponent
     },
     {
         path: 'login',
