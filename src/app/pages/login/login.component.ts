@@ -30,6 +30,7 @@ export class LoginComponent {
   }
 
   onLogin(){
+    this.router.navigateByUrl("/products")
     this.authService.login(this.login).subscribe({
       next:(res:any)=>{
         localStorage.setItem("token_angular", res.token)
