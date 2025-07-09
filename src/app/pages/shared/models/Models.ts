@@ -13,6 +13,15 @@ export interface Product {
   imageUrl: string;
 }
 
+export interface ProductWithCategoryID {
+  id?: string;
+  name: string;
+  unitPrice: number;
+  unitsInStock: number;
+  categories: string[];
+  imageUrl: string;
+}
+
 export interface Category {
   id?: string;
   name: string;

@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../../services/category.service';
 import { ApiResponse, Category } from '../shared/models/Models';
 
-const API_URL = '/api';
+const API_URL = 'http://localhost:8080/api';
 
 interface CategoryFormData {
   name: string;
@@ -109,7 +109,7 @@ export class CategoryFormComponent {
 
     try {
       const category = await this.categoryService.getCategoryByName(categoryName).toPromise();
-      await this.categoryService.deleteCategoryById(category!.data?.id!).toPromise();
+      await this.categoryService.deleteCategoryById(category!.id!).toPromise();
       this.toastrService.success('Categoria excluída com sucesso');
       this.onClose();
     } catch (error) {
@@ -147,13 +147,14 @@ export class CategoryFormComponent {
         const formData = this.categoryForm.value;
         const existingCategory = await this.categoryService.getCategoryByName(formData.name).toPromise();
         
-        await this.categoryService.updateCategory(existingCategory!.data?.id!, submitData).toPromise();
+        await this.categoryService.updateCategory(existingCategory!.id!, submitData).toPromise();
         this.toastrService.success('Categoria atualizada com sucesso');
         this.onClose();
 
       } else {
 
         this.findCategory()
+  
       }
     }
   }
@@ -173,9 +174,9 @@ export class CategoryFormComponent {
     }
   }
 
-  private handleCategoryFound(response: ApiResponse<Category>): void {
-    if (response.data?.imageUrl) {
-      this.imagePreview = `${API_URL}${response.data.imageUrl}`;
+  private handleCategoryFound(response: Category): void {
+    if (response.imageUrl) {
+      this.imagePreview = `${API_URL}${response.imageUrl}`;
     }
     this.categoryFound = true;
     this.toastrService.success('Categoria encontrada');

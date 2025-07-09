@@ -17,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ModelComponent } from '../shared/ui/model/model.component';
 import { productFormComponent } from '../product-form/product-form.component';
 import { CategoryFormComponent } from '../category-form/category-form.component';
-import { ApiResponse, Category, Product } from '../shared/models/Models';
+import { ApiResponse, Category, Product, ProductWithCategoryID } from '../shared/models/Models';
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { Router } from '@angular/router';
@@ -36,14 +36,14 @@ import { Router } from '@angular/router';
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit {
-  public product!: Product;
-  public allProducts: Product[] = [];
-  public filterProducts: Product[] = [];
+  public product!: ProductWithCategoryID;
+  public allProducts: ProductWithCategoryID[] = [];
+  public filterProducts: ProductWithCategoryID[] = [];
   public filterCategoriesIds: string[] = [];
   public isProductModelOpen = false;
   public isCategoryModelOpen = false;
   public categories: Category[] = [];
-  public api_url = '/api';
+  public api_url = 'http://localhost:8080';
   public localStorage = localStorage
 
   public readonly icons = {
@@ -84,7 +84,7 @@ export class ProductsComponent implements OnInit {
   public async getAllProducts(): Promise<void> {
     try {
       const response = await firstValueFrom(this.productService.getAllProducts());
-      this.allProducts = response.data || [];
+      this.allProducts = response || [];
     } catch (error) {
       this.handleError(error as ApiResponse<null>);
     }
@@ -101,7 +101,8 @@ export class ProductsComponent implements OnInit {
   public async getAllCategories(): Promise<void> {
     try {
       const response = await firstValueFrom(this.categoryService.getAllCategories());
-      this.categories = response.data || [];
+      console.log(response)
+      this.categories = response || [];
     } catch (error) {
       this.handleError(error as ApiResponse<null>);
     }
@@ -121,7 +122,7 @@ export class ProductsComponent implements OnInit {
 
   public removeStockUnit(
     value: number, 
-    product: Product, 
+    product: ProductWithCategoryID, 
     inputElement: HTMLInputElement
   ): void {
     if(value > product.unitsInStock){
@@ -134,7 +135,7 @@ export class ProductsComponent implements OnInit {
 
   public addStockUnit(
     value: number, 
-    product: Product, 
+    product: ProductWithCategoryID, 
     inputElement: HTMLInputElement
   ): void {
     if(value < 1){
@@ -157,7 +158,7 @@ export class ProductsComponent implements OnInit {
     this.filterProduct();
   }
 
-  public loadProduct(product: Product): void {
+  public loadProduct(product: ProductWithCategoryID): void {
     this.product = product;
     this.openProductModel();
   }
@@ -184,7 +185,7 @@ export class ProductsComponent implements OnInit {
   private filterProduct(): void {
     this.filterProducts = this.allProducts.filter(product =>
       this.filterCategoriesIds.every(categoryId =>
-        product.categories.some(category => category.id === categoryId)
+        product.categories.some(category => category === categoryId)
       )
     );
   }
@@ -194,7 +195,7 @@ export class ProductsComponent implements OnInit {
     this.allProducts = this.allProducts.filter(product => product.id !== id);
   }
 
-  private updateProductInList(id: string, updatedProduct: Product): void {
+  private updateProductInList(id: string, updatedProduct: ProductWithCategoryID): void {
     this.filterProducts = this.filterProducts.map(product =>
       product.id === id ? product = updatedProduct : product
     );
