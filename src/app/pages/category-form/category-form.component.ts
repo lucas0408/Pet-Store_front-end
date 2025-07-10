@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../../services/category.service';
 import { ApiResponse, Category } from '../shared/models/Models';
 
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'http://localhost:8080';
 
 interface CategoryFormData {
   name: string;
@@ -129,7 +129,10 @@ export class CategoryFormComponent {
       imageUrl: this.imagePreview || ''
     };
 
-    submitData.append('categoryData', JSON.stringify(formData));
+    Object.entries(formData).forEach(([key, value]) => {
+      submitData.append(key, value);
+    });
+    
     if (this.selectedFile) {
       submitData.append('image', this.selectedFile);
     }
@@ -177,6 +180,7 @@ export class CategoryFormComponent {
   private handleCategoryFound(response: Category): void {
     if (response.imageUrl) {
       this.imagePreview = `${API_URL}${response.imageUrl}`;
+      console.log(this.imagePreview)
     }
     this.categoryFound = true;
     this.toastrService.success('Categoria encontrada');
