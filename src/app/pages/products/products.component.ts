@@ -85,6 +85,7 @@ export class ProductsComponent implements OnInit {
     try {
       const response = await firstValueFrom(this.productService.getAllProducts());
       this.allProducts = response || [];
+      console.log(this.allProducts)
     } catch (error) {
       this.handleError(error as ApiResponse<null>);
     }
@@ -101,7 +102,6 @@ export class ProductsComponent implements OnInit {
   public async getAllCategories(): Promise<void> {
     try {
       const response = await firstValueFrom(this.categoryService.getAllCategories());
-      console.log(response)
       this.categories = response || [];
     } catch (error) {
       this.handleError(error as ApiResponse<null>);
@@ -110,6 +110,7 @@ export class ProductsComponent implements OnInit {
 
   public async onDelete(id: string | undefined): Promise<void> {
     if (!id) return;
+
 
     try {
       await firstValueFrom(this.productService.deleteProductById(id));

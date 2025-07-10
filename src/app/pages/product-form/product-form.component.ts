@@ -11,7 +11,7 @@ import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { ApiResponse, Category, Product, ProductWithCategoryID } from '../shared/models/Models';
 
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'http://localhost:8080';
 
 interface ProductFormData {
   name: string;
@@ -165,7 +165,7 @@ export class productFormComponent implements OnChanges, OnInit {
         await this.createProduct(submitData);
       }
     } catch (error) {
-      console.log(error);
+      this.handleError(error);
     }
   }
 
@@ -191,6 +191,7 @@ export class productFormComponent implements OnChanges, OnInit {
     if (this.data?.imageUrl) {
       this.imagePreview = `${API_URL}${this.data.imageUrl}`;
     }
+
   }
 
   private updateSelectedCategories(): void {
@@ -283,9 +284,7 @@ export class productFormComponent implements OnChanges, OnInit {
     this.onClose();
   }
 
-  private handleError(error: ApiResponse<null>): void {
-    error.errors.forEach(errorMessage => {
-      this.toastrService.error(errorMessage);
-    });
+  private handleError(error: Error): void {
+      this.toastrService.error(error.message);
   }
 }
