@@ -33,6 +33,8 @@ export class LoginComponent {
     this.authService.login(this.login).subscribe({
       next:(res:any)=>{
         localStorage.setItem("token_angular", res.token)
+        localStorage.setItem("login", res.login)
+
 
         const router = this.route.snapshot.queryParamMap.get('stateUrl') || 'products'
 
