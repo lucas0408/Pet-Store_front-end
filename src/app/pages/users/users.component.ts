@@ -99,7 +99,8 @@ export class UsersComponent implements OnInit, OnChanges{
     private async getAllUsers(){
       try {
         const response = await firstValueFrom(this.userService.getAllUsers());
-        this.users = response.data || [];
+        this.users = response || [];
+        console.log(this.users)
       } catch (error) {
         this.handleError(error as ApiResponse<null>);
       }
