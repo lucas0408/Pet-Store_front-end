@@ -8,44 +8,44 @@ import { ApiResponse, Category } from '../pages/shared/models/Models';
 })
 export class CategoryService {
 
-  apiurl = '/api/categories';
+  apiurl = 'http://localhost:8080/api/categories';
 
   constructor(private http: HttpClient) { }
 
-    getAllCategories(): Observable<ApiResponse<Category[]>>{
-      return this.http.get<ApiResponse<Category[]>>(`${this.apiurl}`).pipe(
+    getAllCategories(): Observable<Category[]>{
+      return this.http.get<Category[]>(`${this.apiurl}`).pipe(
         catchError(error => {
           return throwError(() => error.error as ApiResponse<null>);
         })
       );;
     }
   
-    getCategoryByName(name:string): Observable<ApiResponse<Category>>{
-      return this.http.get<ApiResponse<Category>>(`${this.apiurl}/${name}`).pipe(
+    getCategoryByName(name:string): Observable<Category>{
+      return this.http.get<Category>(`${this.apiurl}/${name}`).pipe(
         catchError(error => {
           return throwError(() => error.error as ApiResponse<null>);
         })
       );
     }
   
-    createCategory(formData:FormData): Observable<ApiResponse<Category>>{
-      return this.http.post<ApiResponse<Category>>(this.apiurl, formData).pipe(
+    createCategory(formData:FormData): Observable<Category>{
+      return this.http.post<Category>(this.apiurl, formData).pipe(
         catchError(error => {
           return throwError(() => error.error as ApiResponse<null>);
         })
       );;
     }
   
-    updateCategory(id:string, formData:FormData): Observable<ApiResponse<Category>>{
-      return this.http.put<ApiResponse<Category>>(`${this.apiurl}/${id}`, formData).pipe(
+    updateCategory(id:string, formData:FormData): Observable<Category>{
+      return this.http.put<Category>(`${this.apiurl}/${id}`, formData).pipe(
         catchError(error => {
           return throwError(() => error.error as ApiResponse<null>);
         })
       );;
     }
   
-    deleteCategoryById(id:string): Observable<ApiResponse<any>>{
-      return this.http.delete<ApiResponse<Category>>(`${this.apiurl}/${id}`).pipe(
+    deleteCategoryById(id:string): Observable<any>{
+      return this.http.delete<Category>(`${this.apiurl}/${id}`).pipe(
         catchError(error => {
           return throwError(() => error.error as ApiResponse<null>);
         })

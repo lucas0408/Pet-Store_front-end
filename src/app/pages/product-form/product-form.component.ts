@@ -9,9 +9,9 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
-import { ApiResponse, Category, Product } from '../shared/models/Models';
+import { ApiResponse, Category, Product, ProductWithCategoryID } from '../shared/models/Models';
 
-const API_URL = '/api';
+const API_URL = 'http://localhost:8080';
 
 interface ProductFormData {
   name: string;
@@ -36,11 +36,11 @@ interface ProductFormData {
 })
 export class productFormComponent implements OnChanges, OnInit {
   @Output() onCloseModel = new EventEmitter<boolean>();
-  @Input() data: Product | null = null;
+  @Input() data: ProductWithCategoryID | null = null;
 
   public productForm: FormGroup;
   public categories: Category[] = [];
-  public selectedCategories: Category[] = [];
+  public selectedCategories: String[] = [];
   public selectedFile: File | null = null;
   public imagePreview: string | null = null;
   public priceValue = '';
@@ -80,8 +80,7 @@ export class productFormComponent implements OnChanges, OnInit {
   public async getAllCategories(): Promise<void> {
     try {
       const response = await this.categoryService.getAllCategories().toPromise();
-      this.categories = response?.data || [];
-      console.log(this.categories)
+      this.categories = response || [];
     } catch (error) {
       this.handleError(error as ApiResponse<null>);
     }
@@ -103,16 +102,16 @@ export class productFormComponent implements OnChanges, OnInit {
 
   public isCategorySelected(category: Category): boolean {
     return this.selectedCategories.some(
-      selectedCategory => selectedCategory.id === category.id
+      selectedCategory => selectedCategory === category.id
     );
   }
 
   public onCategoryChange(event: Event, category: Category): void {
     const checkbox = event.target as HTMLInputElement;
-    
+
     this.selectedCategories = checkbox.checked
-      ? [...this.selectedCategories, category]
-      : this.selectedCategories.filter(cat => cat.id !== category.id);
+      ? [...this.selectedCategories, category.id!] // adiciona apenas o id
+      : this.selectedCategories.filter(catId => catId !== category.id); // compara com o id
 
     this.productForm.patchValue({ categories: this.selectedCategories });
   }
@@ -166,7 +165,7 @@ export class productFormComponent implements OnChanges, OnInit {
         await this.createProduct(submitData);
       }
     } catch (error) {
-      this.handleError(error as ApiResponse<null>);
+      this.handleError(error);
     }
   }
 
@@ -192,6 +191,7 @@ export class productFormComponent implements OnChanges, OnInit {
     if (this.data?.imageUrl) {
       this.imagePreview = `${API_URL}${this.data.imageUrl}`;
     }
+
   }
 
   private updateSelectedCategories(): void {
@@ -245,7 +245,7 @@ export class productFormComponent implements OnChanges, OnInit {
       ...this.productForm.value,
       unitPrice: this.convertPriceToNumber(this.priceValue)
     };
-    return this.prepareFormData(formData)
+    return this.addImageFormData(formData)
   }
 
   private prepareUpdateFormData(): FormData{
@@ -254,13 +254,16 @@ export class productFormComponent implements OnChanges, OnInit {
       unitPrice: this.convertPriceToNumber(this.priceValue),
       imageUrl: this.imagePreview || ''
     };
-    return this.prepareFormData(formData)
+    return this.addImageFormData(formData)
   }
 
-  private prepareFormData(formData: FormData): FormData {
+  private addImageFormData(formData: FormData): FormData {
 
     const submitData = new FormData();
-    submitData.append('productData', JSON.stringify(formData));
+
+    Object.entries(formData).forEach(([key, value]) => {
+      submitData.append(key, value);
+    });
     
     if (this.selectedFile) {
       submitData.append('image', this.selectedFile);
@@ -281,10 +284,7 @@ export class productFormComponent implements OnChanges, OnInit {
     this.onClose();
   }
 
-  private handleError(error: ApiResponse<null>): void {
-    error.errors.forEach(errorMessage => {
-      this.toastrService.error(errorMessage);
-    });
-    console.log(error)
+  private handleError(error: Error): void {
+      this.toastrService.error(error.message);
   }
 }

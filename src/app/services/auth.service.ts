@@ -8,7 +8,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class AuthService {
 
-  apiUrl = '/api/auth/'
+  apiUrl = 'http://localhost:8080/api/auth/'
 
 
   constructor(private httpClient: HttpClient) { }

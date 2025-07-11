@@ -1,20 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { ApiResponse, Product } from '../pages/shared/models/Models';
+import { ApiResponse, Product, ProductWithCategoryID } from '../pages/shared/models/Models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  apiurl = '/api/products';
+  apiurl = 'http://localhost:8080/api/products';
   
   constructor(private http: HttpClient) {}
 
-  getAllProducts(): Observable<ApiResponse<Product[]>>{
-    return this.http.get<ApiResponse<Product[]>>(`${this.apiurl}`).pipe(
+  getAllProducts(): Observable<ProductWithCategoryID[]>{
+    return this.http.get<ProductWithCategoryID[]>(`${this.apiurl}`).pipe(
       catchError(error => {
-        return throwError(() => error.error as ApiResponse<null>);
+        return throwError(() => error.error as null);
       })
     );;
   }
@@ -28,6 +28,7 @@ export class ProductService {
   }
 
   createProduct(formData: FormData): Observable<ApiResponse<Product>> {
+    console.log(formData)
     return this.http.post<ApiResponse<Product>>(this.apiurl, formData).pipe(
       catchError(error => {
         return throwError(() => error.error as ApiResponse<null>);
