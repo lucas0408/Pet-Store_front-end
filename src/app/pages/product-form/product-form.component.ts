@@ -82,7 +82,11 @@ export class productFormComponent implements OnChanges, OnInit {
       const response = await this.categoryService.getAllCategories().toPromise();
       this.categories = response || [];
     } catch (error) {
-      this.handleError(error as ApiResponse<null>);
+      if (error instanceof Error) {
+        this.handleError(error);
+      } else {
+        this.toastrService.error('Ocorreu um erro desconhecido.');
+      }
     }
   }
 
@@ -165,7 +169,11 @@ export class productFormComponent implements OnChanges, OnInit {
         await this.createProduct(submitData);
       }
     } catch (error) {
-      this.handleError(error);
+      if (error instanceof Error) {
+        this.handleError(error);
+      } else {
+        this.toastrService.error('Ocorreu um erro desconhecido.');
+      }
     }
   }
 
